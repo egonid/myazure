@@ -1,0 +1,329 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_egonid001_name": {
+            "defaultValue": "egonid001",
+            "type": "String"
+        },
+        "networkInterfaces_egonid001_name": {
+            "defaultValue": "egonid001",
+            "type": "String"
+        },
+        "loadBalancers_mydevtestlab2247222073000_name": {
+            "defaultValue": "mydevtestlab2247222073000",
+            "type": "String"
+        },
+        "availabilitySets_mydevtestlab2247222073000_name": {
+            "defaultValue": "mydevtestlab2247222073000",
+            "type": "String"
+        },
+        "publicIPAddresses_mydevtestlab2247222073000_name": {
+            "defaultValue": "mydevtestlab2247222073000",
+            "type": "String"
+        },
+        "extensions_enablevmaccess_name": {
+            "defaultValue": "enablevmaccess",
+            "type": "String"
+        },
+        "inboundNatRules_Tcp3389089d2964_2f9e_4929_90ac_87535ec4cff5_name": {
+            "defaultValue": "Tcp3389089d2964-2f9e-4929-90ac-87535ec4cff5",
+            "type": "String"
+        },
+        "virtualMachines_egonid001_id": {
+            "defaultValue": "/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/MYDEVTESTLAB2247222073000/providers/Microsoft.Compute/disks/egonid001",
+            "type": "String"
+        },
+        "loadBalancers_mydevtestlab2247222073000_id": {
+            "defaultValue": "/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/mydevtestlab2247222073000/providers/Microsoft.Network/loadBalancers/mydevtestlab2247222073000/frontendIPConfigurations/FrontendPool1",
+            "type": "String"
+        },
+        "networkInterfaces_egonid001_id": {
+            "defaultValue": "/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/MyDevTestLab/providers/Microsoft.Network/virtualNetworks/DtlMyDevTestLab/subnets/DtlMyDevTestLabSubnet",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/mydevtestlab2247222073000/providers/Microsoft.Compute/availabilitySets/mydevtestlab2247222073000'.",
+            "type": "Microsoft.Compute/availabilitySets",
+            "sku": {
+                "name": "Aligned"
+            },
+            "name": "[parameters('availabilitySets_mydevtestlab2247222073000_name')]",
+            "apiVersion": "2018-06-01",
+            "location": "koreacentral",
+            "tags": {
+                "hidden-DevTestLabs-LabUId": "7266dded-650c-43f4-96ee-b24edae0e68f"
+            },
+            "scale": null,
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 2,
+                "virtualMachines": [
+                    {
+                        "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_egonid001_name'))]"
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_egonid001_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/mydevtestlab2247222073000/providers/Microsoft.Compute/virtualMachines/egonid001'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_egonid001_name')]",
+            "apiVersion": "2018-06-01",
+            "location": "koreacentral",
+            "tags": {
+                "hidden-DevTestLabs-LabUId": "7266dded-650c-43f4-96ee-b24edae0e68f",
+                "hidden-DevTestLabs-LogicalResourceUId": "089d2964-2f9e-4929-90ac-87535ec4cff5"
+            },
+            "scale": null,
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_mydevtestlab2247222073000_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_F4s_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "rs4-pro",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[parameters('virtualMachines_egonid001_name')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "id": "[parameters('virtualMachines_egonid001_id')]"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_egonid001_name')]",
+                    "adminUsername": "egonid",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_egonid001_name'))]"
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_mydevtestlab2247222073000_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_egonid001_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/mydevtestlab2247222073000/providers/Microsoft.Network/loadBalancers/mydevtestlab2247222073000'.",
+            "type": "Microsoft.Network/loadBalancers",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[parameters('loadBalancers_mydevtestlab2247222073000_name')]",
+            "apiVersion": "2018-08-01",
+            "location": "koreacentral",
+            "tags": {
+                "hidden-DevTestLabs-LabUId": "7266dded-650c-43f4-96ee-b24edae0e68f"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "dd9964c5-f951-4be9-a6ff-b72c330c27a5",
+                "frontendIPConfigurations": [
+                    {
+                        "name": "FrontendPool1",
+                        "etag": "W/\"6575b21b-b8e1-4d7f-b139-b80f8240271a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_mydevtestlab2247222073000_name'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "BackendPool1",
+                        "etag": "W/\"6575b21b-b8e1-4d7f-b139-b80f8240271a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded"
+                        }
+                    }
+                ],
+                "loadBalancingRules": [],
+                "probes": [],
+                "inboundNatRules": [
+                    {
+                        "name": "Tcp3389089d2964-2f9e-4929-90ac-87535ec4cff5",
+                        "etag": "W/\"6575b21b-b8e1-4d7f-b139-b80f8240271a\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_mydevtestlab2247222073000_id')]"
+                            },
+                            "frontendPort": 60665,
+                            "backendPort": 3389,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "enableTcpReset": false
+                        }
+                    }
+                ],
+                "outboundRules": [],
+                "inboundNatPools": []
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_mydevtestlab2247222073000_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/mydevtestlab2247222073000/providers/Microsoft.Network/networkInterfaces/egonid001'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_egonid001_name')]",
+            "apiVersion": "2018-08-01",
+            "location": "koreacentral",
+            "tags": {
+                "hidden-DevTestLabs-LabUId": "7266dded-650c-43f4-96ee-b24edae0e68f",
+                "hidden-DevTestLabs-LogicalResourceUId": "089d2964-2f9e-4929-90ac-87535ec4cff5"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "b405311f-5217-4e04-af27-6719bf7988b9",
+                "ipConfigurations": [
+                    {
+                        "name": "NicIPConfigName1",
+                        "etag": "W/\"c87137b9-cca0-48b4-9c6b-572541ed3626\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAddress": "10.0.0.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[parameters('networkInterfaces_egonid001_id')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4",
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_mydevtestlab2247222073000_name')), '/backendAddressPools/BackendPool1')]"
+                                }
+                            ],
+                            "loadBalancerInboundNatRules": [
+                                {
+                                    "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', parameters('loadBalancers_mydevtestlab2247222073000_name'), parameters('inboundNatRules_Tcp3389089d2964_2f9e_4929_90ac_87535ec4cff5_name'))]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "primary": true,
+                "virtualMachine": {
+                    "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_egonid001_name'))]"
+                },
+                "tapConfigurations": []
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_mydevtestlab2247222073000_name'))]",
+                "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', parameters('loadBalancers_mydevtestlab2247222073000_name'), parameters('inboundNatRules_Tcp3389089d2964_2f9e_4929_90ac_87535ec4cff5_name'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_egonid001_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/mydevtestlab2247222073000/providers/Microsoft.Network/publicIPAddresses/mydevtestlab2247222073000'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "name": "[parameters('publicIPAddresses_mydevtestlab2247222073000_name')]",
+            "apiVersion": "2018-08-01",
+            "location": "koreacentral",
+            "tags": {
+                "hidden-DevTestLabs-LabUId": "7266dded-650c-43f4-96ee-b24edae0e68f"
+            },
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "a9a011ab-514c-42c4-8163-224ec0e5576f",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('publicIPAddresses_mydevtestlab2247222073000_name')]",
+                    "fqdn": "[concat(parameters('publicIPAddresses_mydevtestlab2247222073000_name'),'.koreacentral.cloudapp.azure.com')]"
+                },
+                "ipTags": []
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/mydevtestlab2247222073000/providers/Microsoft.Compute/virtualMachines/egonid001/extensions/enablevmaccess'.",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('virtualMachines_egonid001_name'), '/', parameters('extensions_enablevmaccess_name'))]",
+            "apiVersion": "2018-06-01",
+            "location": "koreacentral",
+            "scale": null,
+            "properties": {
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "UserName": "egonid"
+                },
+                "publisher": "Microsoft.Compute",
+                "type": "VMAccessAgent",
+                "typeHandlerVersion": "2.0",
+                "protectedSettings": {}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_egonid001_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/d8d09d68-46cb-404f-a345-daf3b30c0da4/resourceGroups/mydevtestlab2247222073000/providers/Microsoft.Network/loadBalancers/mydevtestlab2247222073000/inboundNatRules/Tcp3389089d2964-2f9e-4929-90ac-87535ec4cff5'.",
+            "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+            "name": "[concat(parameters('loadBalancers_mydevtestlab2247222073000_name'), '/', parameters('inboundNatRules_Tcp3389089d2964_2f9e_4929_90ac_87535ec4cff5_name'))]",
+            "apiVersion": "2018-08-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_mydevtestlab2247222073000_name')), '/frontendIPConfigurations/FrontendPool1')]"
+                },
+                "frontendPort": 60665,
+                "backendPort": 3389,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 4,
+                "protocol": "Tcp",
+                "enableTcpReset": false
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_mydevtestlab2247222073000_name'))]"
+            ]
+        }
+    ]
+}
